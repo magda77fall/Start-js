@@ -1,10 +1,63 @@
-let title;
-let screens;
-let screenPrice;
-let rollback;
+"use strict";
+
+let title = prompt("Как называется ваш проект?");
+let screens = prompt("Какие типы экранов нужно разработать?");
+let screenPrice = +prompt("Сколько будет стоить данная работа?");
+let adaptive = prompt("Нужен адаптив на сайте?", "Да");
+
+let service1 = prompt("Какой дополнительный тип услуги нужен?");
+let servicePrice1 = +prompt("Сколько это будет стоить?");
+let service2 = prompt("Какой дополнительный тип услуги нужен?");
+let servicePrice2 = +prompt("Сколько это будет стоить?");
+let rollback = 15;
 let fullPrice;
-let adaptive;
+let allServicePrices;
+let servicePercentPrice;
 
-alert("С добрым утром!");
+const getAllServicePrices = function () {
+  return servicePrice1 + servicePrice2;
+};
 
-console.log("Меня зовут Магда");
+function getFullPrice() {
+  return screenPrice + allServicePrices;
+}
+
+const getTitle = () => {
+  const normalizedTitle = (title || "").trim();
+
+  return (
+    normalizedTitle.charAt(0).toUpperCase() +
+    normalizedTitle.slice(1).toLowerCase()
+  );
+};
+
+const getServicePercentPrices = () => {
+  return fullPrice - Math.ceil(fullPrice * (rollback / 100));
+};
+
+const getRollbackMessage = function (price) {
+  if (price >= 30000) {
+    return "Даем скидку в 10%";
+  } else if (price >= 15000 && fullPrice < 30000) {
+    return "Даем скидку в 5%";
+  } else if (price >= 0 && fullPrice < 15000) {
+    return "Скидка не предусмотрена";
+  } else {
+    return "Что то пошло не так";
+  }
+};
+const showTypeOff = function (item) {
+  console.log(item, typeof item);
+};
+
+fullPrice = getFullPrice();
+allServicePrices = getAllServicePrices();
+servicePercentPrice = getServicePercentPrices();
+title = getTitle();
+
+console.log(getRollbackMessage(fullPrice));
+showTypeOff(title);
+showTypeOff(fullPrice);
+showTypeOff(adaptive);
+console.log(screens.length);
+console.log(servicePercentPrice);
